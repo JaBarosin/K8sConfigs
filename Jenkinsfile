@@ -40,13 +40,16 @@ node {
            ]
 
           if(violations == false) {
-            slackSend color: "good", message: "No violations! Woohoo! [Jenkins] '${env.JOB_NAME}' ${env.BUILD_URL}"
-
+            echo "No violations occured - keen!"
+            sh "python3 /var/jenkins_home/app/success.py '${env.JOB_NAME}' '${env.BUILD_NUMBER}'"
+            
           }
 
           if(violations == true) {
-            slackSend(channel: "#build-alerts", blocks: blocks_fail)
-            slackUploadFile filePath: "deployment_manifest_validate.json", initialComment: ""
+            sh 'python3 /var/jenkins_home/app/k8s_validate_slack.py deployment_manifest_validate.json'
+
+            sh "python3 /var/jenkins_home/app/failure.py '${env.JOB_NAME}' '${env.BUILD_NUMBER}' '${env.STAGE_NAME}'"
+            
             echo "Violations occured. results of cbctl validate can be found in deployment_manifest_validate.json"
             error("Failed Deployment due to CB Container policy violations.")
 
@@ -58,7 +61,7 @@ node {
 
   }
 
-
+/*
   stage('Deployment test') {
     sshagent(['ubuntu-host']) {
       sh "scp -o StrictHostKeyChecking=no deployment.yaml jake@192.168.6.44:/k8s/dev/"
@@ -86,5 +89,6 @@ node {
     }
 
   }
+  */
 
 }
