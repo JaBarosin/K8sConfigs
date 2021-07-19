@@ -10,8 +10,8 @@ node {
 
   stage('Validate K8s-object') {
   try {
-    echo "Validate stage... Starting validate test for deployment-v2.yaml."
-    sh '/var/jenkins_home/app/cbctl k8s-object validate -f deployment-v2.yaml -o json > deployment_manifest_validate_v2.json'
+    echo "Validate stage... Starting validate test for deployment.yaml."
+    sh '/var/jenkins_home/app/cbctl k8s-object validate -f deployment.yaml -o json > deployment_manifest_validate_v2.json'
     // sh 'python3 /var/jenkins_home/app/cbctl_validate_helper.py ${REPO}_${IMAGE}_validate.json > cbctl_policy_no_violations.txt'
 
   }
@@ -25,40 +25,62 @@ node {
 
     stage('Slack Post - Validate k8s-object') {
 
-          //SLACK_CBCTL = sh 'cat slack_block.txt'
-          //echo "Message to send in slack_block: ${SLACK_CBCTL}"
-          blocks_fail = [
-                  [
-                   "type": "section",
-                   "text": [
-                          "type": "mrkdwn",
-                          "text": "*K8s config security check details:* - <https://defense-prod05.conferdeploy.net/kubernetes/repos| here > \n*${env.JOB_NAME}: *-#${env.BUILD_NUMBER} - <${env.BUILD_URL}| here > "
-                          ]
-                  ]
-
-
-           ]
+         try{
+            sh 'git clone https://github.com/slackapi/python-slack-sdk.git'
+         }
+         catch(exists){
+             echo 'already exists'
+         }
 
           if(violations == false) {
-            slackSend color: "good", message: "No violations! Woohoo! [Jenkins] '${env.JOB_NAME}' ${env.BUILD_URL}"
-
+            echo "No violations occured - keen!"
+            sh "python3 /var/jenkins_home/app/success.py '${env.JOB_NAME}' '${env.BUILD_NUMBER}'"
+            
           }
 
           if(violations == true) {
-            slackSend(channel: "#build-alerts", blocks: blocks_fail)
-            slackUploadFile filePath: "deployment_manifest_validate.json", initialComment: ""
-            echo "Violations occured. results of cbctl validate can be found in deployment_manifest_validate_v2.json"
-            // error("Failed Deployment due to CB Container policy violations.")
+            sh 'python3 /var/jenkins_home/app/k8s_validate_slack.py deployment_manifest_validate_v2.json'
 
+            sh "python3 /var/jenkins_home/app/failure.py '${env.JOB_NAME}' '${env.BUILD_NUMBER}' '${env.STAGE_NAME}'"
+            
+            echo "Violations occured. results of cbctl validate can be found in deployment_manifest_validate.json"
+            error("Failed Deployment due to CB Container policy violations.")
           }
+      }
+   }
+}
 
 
+def k8 = "jenkins-k8-${UUID.randomUUID().toString()}"
+podTemplate(label: k8, containers: [
+containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true)
+])
+{
+node (k8) {
+        stage ('Get Validated Deployment Files') {
+            container('kubectl') {
+              checkout scm
+            }   
         }
 
-
+      stage ('Deploy Final Image') {
+            container('kubectl') {
+                    sh "kubectl apply -f deployment-v2.yaml -n feline --validate=false"
+                    sh "kubectl get all -n feline"
+            }
+        }
+  stage ('Cleaning Up Image - After 1 min for Viewing'){
+    container('kubectl') {
+      sleep 60
+      sh "kubectl delete deployment -n feline deployment-v2.yaml"
+      sh "kubectl delete service --all -n feline"
+    }
   }
+}
 
 
+
+/*
   stage('Deployment test') {
     sshagent(['ubuntu-host']) {
       sh "scp -o StrictHostKeyChecking=no deployment-v2.yaml jake@192.168.6.44:/k8s/dev/"
@@ -88,3 +110,4 @@ node {
   }
 
 }
+*/
