@@ -25,19 +25,12 @@ node {
 
     stage('Slack Post - Validate k8s-object') {
 
-          //SLACK_CBCTL = sh 'cat slack_block.txt'
-          //echo "Message to send in slack_block: ${SLACK_CBCTL}"
-          blocks_fail = [
-                  [
-                   "type": "section",
-                   "text": [
-                          "type": "mrkdwn",
-                          "text": "*K8s config security check details:* - <https://defense-prod05.conferdeploy.net/kubernetes/repos| here > \n*${env.JOB_NAME}: *-#${env.BUILD_NUMBER} - <${env.BUILD_URL}| here > "
-                          ]
-                  ]
-
-
-           ]
+         try{
+            sh 'git clone https://github.com/slackapi/python-slack-sdk.git'
+         }
+         catch(exists){
+             echo 'already exists'
+         }
 
           if(violations == false) {
             echo "No violations occured - keen!"
