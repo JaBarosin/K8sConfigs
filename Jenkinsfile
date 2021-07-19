@@ -34,8 +34,8 @@ node {
 
           if(violations == false) {
             echo "No violations occured - keen!"
-            //sh "python3 /var/jenkins_home/app/success.py '${env.JOB_NAME}' '${env.BUILD_NUMBER}'"
-            sh "python3 /var/jenkins_home/app/final_stage_success.py '${env.JOB_NAME}' '${env.BUILD_NUMBER}'"
+            sh "python3 /var/jenkins_home/app/success.py '${env.JOB_NAME}' '${env.BUILD_NUMBER}'"
+            //sh "python3 /var/jenkins_home/app/final_stage_success.py '${env.JOB_NAME}' '${env.BUILD_NUMBER}'"
 
             
           }
@@ -74,6 +74,7 @@ node (k8) {
   stage ('Cleaning Up Image - After 1 min for Viewing'){
     container('kubectl') {
       sleep 60
+      sh "kubectl get all -n feline"
       sh "kubectl delete deployment -n feline nodeapp"
       sh "kubectl delete service --all -n feline"
     }
