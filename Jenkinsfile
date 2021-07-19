@@ -72,7 +72,7 @@ node (k8) {
   stage ('Cleaning Up Image - After 1 min for Viewing'){
     container('kubectl') {
       sleep 60
-      sh "kubectl delete deployment -n feline deployment-v2.yaml"
+      sh "kubectl delete deployment -n feline nodeapp"
       sh "kubectl delete service --all -n feline"
     }
   }
