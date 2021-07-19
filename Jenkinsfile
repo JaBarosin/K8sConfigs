@@ -34,7 +34,9 @@ node {
 
           if(violations == false) {
             echo "No violations occured - keen!"
-            sh "python3 /var/jenkins_home/app/success.py '${env.JOB_NAME}' '${env.BUILD_NUMBER}'"
+            //sh "python3 /var/jenkins_home/app/success.py '${env.JOB_NAME}' '${env.BUILD_NUMBER}'"
+            sh "python3 /var/jenkins_home/app/final_stage_success.py '${env.JOB_NAME}' '${env.BUILD_NUMBER}'"
+
             
           }
 
