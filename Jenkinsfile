@@ -75,7 +75,7 @@ node (k8) {
     container('kubectl') {
       sleep 60
       sh "kubectl get all -n feline"
-      sh "kubectl delete deployment -n feline nodeapp"
+      sh "kubectl delete deployment --all -n feline"
       sh "kubectl delete service --all -n feline"
     }
   }
