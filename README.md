@@ -1,4 +1,4 @@
-# K8sConfigs - Good Deployment
+# K8sConfigs - Good Deployment - Kubectl
 
 This deployment pipeline section is intended to highlight a successful deployment pipeline, after changes to the the yaml have been made, to align with the CBC Container Security Policy rules.
 
