@@ -2,44 +2,42 @@ node {
 
   violations = false
 
-  stage('Get deployment files') {
+  stage('Get Deployment Files') {
       /* Cloning the Repository to jenkins-docker Workspace */
-      // git branch: 'jake-testing', url: 'https://github.com/JaBarosin/NodeApp.git'
+     
       checkout scm
   }
 
   stage('Validate K8s-object') {
   try {
     echo "Validate stage... Starting validate test for deployment-v2.yaml."
+    // Runs cbctl to validate yaml against policy for violations - dump output to json file
     sh '/var/jenkins_home/app/cbctl k8s-object validate -f deployment-v2.yaml -o json > deployment_manifest_validate_v2.json'
-    // sh 'python3 /var/jenkins_home/app/cbctl_validate_helper.py ${REPO}_${IMAGE}_validate.json > cbctl_policy_no_violations.txt'
 
   }
 
   catch (err) {
     violations = true
     echo "Build detected cbctl violations. Review Cbctl scan results."
-    // sh 'python3 /var/jenkins_home/app/cbctl_validate_helper.py ${REPO}_${IMAGE}_validate.json > cbctl_policy_violations.txt'
-
+    
     }
 
     stage('Slack Post - Validate k8s-object') {
-
+        
+        // Simple loop added to allow python slack helper scripts, built within the ova, to work
          try{
             sh 'git clone https://github.com/slackapi/python-slack-sdk.git'
          }
          catch(exists){
              echo 'already exists'
          }
-
+          // If no CBC K8s policy violations; confirm successful build via Slack - move to deployment of validated k8
           if(violations == false) {
             echo "No violations occured - keen!"
-            sh "python3 /var/jenkins_home/app/success.py '${env.JOB_NAME}' '${env.BUILD_NUMBER}'"
-            //sh "python3 /var/jenkins_home/app/final_stage_success.py '${env.JOB_NAME}' '${env.BUILD_NUMBER}'"
-
-            
+            sh "python3 /var/jenkins_home/app/success.py '${env.JOB_NAME}' '${env.BUILD_NUMBER}'"            
           }
-
+          
+          // If CBC K8s policy violations triggered; output those violations to Slack, end deployment pipeline to allow for rectifying of violations prior to prod deployment
           if(violations == true) {
             sh 'python3 /var/jenkins_home/app/k8s_validate_slack.py deployment_manifest_validate_v2.json'
 
@@ -52,66 +50,42 @@ node {
    }
 }
 
-
+// Create kubectl Node & Container template for utilization in deployment process
 def k8 = "jenkins-k8-${UUID.randomUUID().toString()}"
 podTemplate(label: k8, containers: [
 containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true)
 ])
 {
 node (k8) {
+        // Get Validated Deployment files with no Violations, based on tests run above
         stage ('Get Validated Deployment Files') {
             container('kubectl') {
               checkout scm
             }   
         }
-
+  
+      // Create nodeapp namespace, and deploy validated yaml
       stage ('Deploy Final Image') {
             container('kubectl') {
-                    sh "kubectl apply -f deployment-v2.yaml -n feline --validate=false"
-                    sh "kubectl get all -n feline"
+              try{
+                    sh "kubectl create namespace nodeapp"
+              }
+              catch(exists2){
+                echo "namespace already exists...moving on"
+              }
+                    sh "kubectl apply -f deployment-v2.yaml -n nodeapp --validate=false"
             }
         }
+  
+  // Remove prior deployed nodeapp container, for hygiene purpose
   stage ('Cleaning Up Image - After 1 min for Viewing'){
     container('kubectl') {
       sleep 60
-      sh "kubectl get all -n feline"
-      sh "kubectl delete deployment --all -n feline"
-      sh "kubectl delete service --all -n feline"
+      sh "kubectl get all -n nodeapp"
+      sh "kubectl delete deployment --all -n nodeapp"
+      sh "kubectl delete service --all -n nodeapp"
     }
   }
 }
 }
 
-
-
-/*
-  stage('Deployment test') {
-    sshagent(['ubuntu-host']) {
-      sh "scp -o StrictHostKeyChecking=no deployment-v2.yaml jake@192.168.6.44:/k8s/dev/"
-      try{
-          sh "ssh jake@192.168.6.44 microk8s kubectl apply -f /k8s/dev/deployment-v2.yaml && sleep 5"
-      }
-
-      catch(error){
-          echo "Welp... those didnt exist yet..."
-          sh "ssh jake@192.168.6.44 microk8s kubectl create -f /k8s/dev/deployment-v2.yaml && sleep 5"
-      }
-
-      stage('Connection Test') {
-        sh "curl 192.168.6.44:30333"
-        echo "Done testing"
-      }
-
-      stage('Cleanup') {
-        sh "ssh jake@192.168.6.44 microk8s kubectl delete deployment nodeapp"
-        sh "ssh jake@192.168.6.44 microk8s kubectl delete service nodeapp-service"
-        sh "ssh jake@192.168.6.44 microk8s kubectl get all"
-
-      }
-
-    }
-
-  }
-
-}
-*/
