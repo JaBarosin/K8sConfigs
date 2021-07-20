@@ -1,17 +1,17 @@
 node {
 
   violations = false
-
+  
+  // Cloning the Repository to jenkins-docker Workspace
   stage('Get Deployment Files') {
-      /* Cloning the Repository to jenkins-docker Workspace */
-     
+      
       checkout scm
   }
-
+  
+  // Runs cbctl to validate yaml against policy for violations - dump output to json file
   stage('Validate K8s-object') {
   try {
     echo "Validate stage... Starting validate test for deployment-v2.yaml."
-    // Runs cbctl to validate yaml against policy for violations - dump output to json file
     sh '/var/jenkins_home/app/cbctl k8s-object validate -f deployment-v2.yaml -o json > deployment_manifest_validate_v2.json'
 
   }
@@ -22,6 +22,7 @@ node {
     
     }
 
+    // Post the results to Slack, upon success or failure, of cbctl validation against policy rules
     stage('Slack Post - Validate k8s-object') {
         
         // Simple loop added to allow python slack helper scripts, built within the ova, to work
