@@ -77,13 +77,16 @@ node (k8) {
             }
         }
   
-  // Remove prior deployed nodeapp container, for hygiene purpose
+  // Remove prior deployed nodeapp container, for hygiene purposes
+  // Navigate to localhost:30333 on your demo vm to see your static site!
   stage ('Cleaning Up Image - After 1 min for Viewing'){
     container('kubectl') {
+      echo "Navigate to localhost:30333 on your demo vm to see your static site!"
       sleep 60
       sh "kubectl get all -n nodeapp"
-      sh "kubectl delete deployment --all -n nodeapp"
       sh "kubectl delete service --all -n nodeapp"
+      sh "kubectl delete deployment --all -n nodeapp"
+
     }
   }
 }
