@@ -2,7 +2,7 @@
 
 This repo has several example branches which can be used by SEs to test different K8s resource configurations in a demo environment.
 
-In order to get started, start by setting up your environment by following the [CBC_Container_CICD_Demo](https://github.com/ncomeau/CBC_Container_CICD_Demo) guide.
+In order to get started, start by setting up your environment by following the [CBC_Container_CICD_Demo](https://github.com/ncomeau/CBC_Container_CICD_Demo_Env) guide.
 
 ## Branches
 
