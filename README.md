@@ -9,7 +9,12 @@ Validate and deploy two different k8s configurations to a microk8s cluster, in a
 ## Index
  * [Jenkins Setup](https://github.com/JaBarosin/K8sConfigs/tree/CBC_Container_Demo#jenkins-setup)
  * [CBC Setup](https://github.com/JaBarosin/K8sConfigs/tree/CBC_Container_Demo#cbc-setup)
- * [Run/Build Options](https://github.com/JaBarosin/K8sConfigs/tree/CBC_Container_Demo#jenkins-setup)
+ * [Run/Build Options](https://github.com/JaBarosin/K8sConfigs/tree/CBC_Container_Demo#runbuild-options)
+   * _[Option 1: Run Builds Individually](https://github.com/JaBarosin/K8sConfigs/tree/CBC_Container_Demo#option-1-run-builds-individually)_ 
+   * _[Option 2: Link Both Builds Together](https://github.com/JaBarosin/K8sConfigs/tree/CBC_Container_Demo#option-2-link-both-builds-together)_
+ * [Specific Configs & Output](https://github.com/JaBarosin/K8sConfigs/tree/CBC_Container_Demo#specific-configs--output)
+   * _[Bad Deployment](https://github.com/JaBarosin/K8sConfigs/tree/CBC_Container_Demo#bad-deployment)_
+   * _[Good Deployment](https://github.com/JaBarosin/K8sConfigs/tree/CBC_Container_Demo#good-deployment)_ 
 
 ## Jenkins Setup
 
