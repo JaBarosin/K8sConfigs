@@ -7,7 +7,7 @@ Validate and deploy two different k8s configurations to a microk8s cluster, in a
   * Finish with the ***'good'*** deployment - this deployment successfully completes, devoid of any CBC Container Policy violations, and allows for completion of the deployment pipeline, generating a workload of a static site, which is monitored by CB Container resources.
 
 ## Index
- * [Jenkins Setup](https://github.com/JaBarosin/K8sConfigs/edit/CBC_Container_Demo#Jenkins_Setup)
+ * [Jenkins Setup](https://github.com/JaBarosin/K8sConfigs/tree/CBC_Container_Demo#jenkins-setup)
 
 ## Jenkins Setup
 
