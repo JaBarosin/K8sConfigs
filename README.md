@@ -42,7 +42,7 @@ In order to get started, start by setting up your environment by following the [
 
 
   6. Repeat steps 1-3 and create a second Pipeline.
-     * Create the second Pipeline with a name of; "good-deployment-pipeline"
+     * Create the second Pipeline with a name of; ***good-deployment-pipeline***
      * Set the _Script Path_ to ```good/Jenkinsfile```
    
 ### Run/Build Options
