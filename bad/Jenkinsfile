@@ -11,7 +11,7 @@ node {
   }
 
   // Runs cbctl to validate yaml against policy for violations - dump output to json file
-  stage('Validate K8s-object') {
+  stage('Config Checks') {
 
     // def configPath = "${env.WORKSPACE}" + "/" + "bad" + "/" + "deployment.yaml"
     echo '${configPath}'
@@ -31,7 +31,7 @@ node {
       }
 
     // Post the results to Slack, upon success or failure, of cbctl validation against policy rules
-    stage('Slack Post - Validate k8s-object') {
+    stage('Validate k8s-object') {
 
         // Simple loop added to allow python slack helper scripts, built within the ova, to work
          try{
