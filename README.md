@@ -6,13 +6,13 @@ In order to get started, start by setting up your environment by following the [
 
 ## Branches
 
-#### _CBC_Container_Demo_
+### _CBC_Container_Demo_
 
   * Validate and deploy two different k8s configurations to a microk8s cluster, in an effort to highlight how cbctl can be utilized within a deployment pipeline. The intent of this demo is to first highlight how you can practice good hygiene, by identifying potential vulnerabilities and CBC Policy Violations in the build cycle, enabling a proactive posture and optimization of a CI/CD deployment pipeline. 
     * Start with the ***'bad'*** deployment - this deployment contains configurations that violate the demo CB Container Policy rules, and terminates the pipeline prior to the deployment phase.
     * Finish with the ***'good'*** deployment - this deployment successfully completes, devoid of any CBC Container Policy violations, and allows for completion of the deployment pipeline, generating a workload of a static site, which is monitored by CB Container resources.
 
-###### Setup for Jenkins
+#### Setup for Jenkins
 
   1. Navigate to your Jenkins Dashboard
 
@@ -55,9 +55,9 @@ Script Path: | ```bad/Jenkinsfile```
      * Create the second Pipeline with a name of; "good-deployment-pipeline"
      * Set the _Script Path_ to ```good/Jenkinsfile```
    
-#### Run/Build Options
+### Run/Build Options
 
-##### Option 1: Run Builds Individually
+#### Option 1: Run Builds Individually
 
   1. Select ```Build Now``` for the Job set to the ***bad-deployment-pipeline*** job first.
      * View the slack notification which confirms the violations, and provides a breakdown into what specific configurations were the offending rules.
@@ -68,7 +68,7 @@ Script Path: | ```bad/Jenkinsfile```
        * _Tip_: On your Jenkins host, open a new terminal tab and use the ```watch``` command to monitor microk8s.
           - Enter command: ```watch microk8s kubectl get all -n nodeapp``` (crtl+c or cmd+c = exit)
 
-##### Option 2: Link Both Builds Together
+#### Option 2: Link Both Builds Together
 
   1. Select ```Configure``` for the ***good-deployment-pipeline***.
   ![image](https://user-images.githubusercontent.com/18126247/127369652-a0d75a7d-9a24-47cd-9cdb-1f49370c9f05.png)
