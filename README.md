@@ -40,16 +40,6 @@ In order to get started, start by setting up your environment by following the [
      6. Lastly, click ```Apply``` & ```Save```
      ![image](https://user-images.githubusercontent.com/18126247/127366311-de60fa9c-8c0f-46a5-85c8-100d24cb0500.png)
 
-Pipeline config | Value
---------------------- | ---------------------
-Pipeline Definition: | Pipeline script from SCM
-SCM: | Git
-Repositories - Reposiroty URL: | ```https://github./com/JaBarosin/K8sConfigs.git```
-Credentials: | _none_
-Branches to build - Branch specifier: | ```*/CBC_Container_Demo```
-Repository Browser: | (Auto)
-Script Path: | ```bad/Jenkinsfile```
-
 
   6. Repeat steps 1-3 and create a second Pipeline.
      * Create the second Pipeline with a name of; "good-deployment-pipeline"
@@ -57,7 +47,7 @@ Script Path: | ```bad/Jenkinsfile```
    
 ### Run/Build Options
 
-#### Option 1: Run Builds Individually
+#### _Option 1: Run Builds Individually_
 
   1. Select ```Build Now``` for the Job set to the ***bad-deployment-pipeline*** job first.
      * View the slack notification which confirms the violations, and provides a breakdown into what specific configurations were the offending rules.
@@ -68,7 +58,7 @@ Script Path: | ```bad/Jenkinsfile```
        * _Tip_: On your Jenkins host, open a new terminal tab and use the ```watch``` command to monitor microk8s.
           - Enter command: ```watch microk8s kubectl get all -n nodeapp``` (crtl+c or cmd+c = exit)
 
-#### Option 2: Link Both Builds Together
+#### _Option 2: Link Both Builds Together_
 
   1. Select ```Configure``` for the ***good-deployment-pipeline***.
   ![image](https://user-images.githubusercontent.com/18126247/127369652-a0d75a7d-9a24-47cd-9cdb-1f49370c9f05.png)
