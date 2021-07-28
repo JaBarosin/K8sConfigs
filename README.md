@@ -17,7 +17,11 @@ Branches to build - Branch specifier: | ```*/CBC_Container_Demo```
 Repository Browser: | (Auto)
 Script Path: | ```bad/Jenkinsfile```
 
-  ![](img/bad-deployment.png)
+### _Jenkins_
+![image](https://user-images.githubusercontent.com/18126247/127372673-ef2489a0-c480-49a4-8f1b-ed4159d186a1.png)
+
+### _Slack_
+![image](https://user-images.githubusercontent.com/18126247/127372960-86a9fbb1-c389-4e9f-817c-bce33e8e12f0.png)
 
 
 ## Good-deployment
@@ -34,4 +38,9 @@ Branches to build - Branch specifier: | ```*/CBC_Container_Demo```
 Repository Browser: | (Auto)
 Script Path: | ```good/Jenkinsfile```
 
-  ![](img/good-deployment.png)
+### _Jenkins_
+![image](https://user-images.githubusercontent.com/18126247/127372856-f8ad8871-5965-44a7-8a0a-832db07e4ba3.png)
+
+### _Slack_
+![image](https://user-images.githubusercontent.com/18126247/127373075-eda903c4-7c33-4e79-b0be-83cda11a525b.png)
+
