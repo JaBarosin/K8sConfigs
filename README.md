@@ -8,6 +8,8 @@ Validate and deploy two different k8s configurations to a microk8s cluster, in a
 
 ## Index
  * [Jenkins Setup](https://github.com/JaBarosin/K8sConfigs/tree/CBC_Container_Demo#jenkins-setup)
+ * [CBC Setup](https://github.com/JaBarosin/K8sConfigs/tree/CBC_Container_Demo#cbc-setup)
+ * [Run/Build Options](https://github.com/JaBarosin/K8sConfigs/tree/CBC_Container_Demo#jenkins-setup)
 
 ## Jenkins Setup
 
