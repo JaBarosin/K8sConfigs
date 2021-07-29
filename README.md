@@ -51,7 +51,35 @@ Validate and deploy two different k8s configurations to a microk8s cluster, in a
 
 ## CBC Setup
 
-***content pending***
+***This setup is designed to generate the anticipated alerts based on the demo examples used. You may use alternate configurations if you'd like, but the results of the demo deployment scripts might not work as anticipated if the below configurations are not followed as listed.***
+
+1. Log into your CBC Instance
+2. Navigate to ***\[Inventory > Kubernetes > K8s Clusters > CLI Config Tab\]***
+3. Select ```Add CLI``` in the top right
+4. Click through the install prompts
+    * Ex) Build Step = ***dev***
+    * Make sure you copy out the configure/download CLI prompt **into your Jenkins container**
+      * Ex) ```docker exec -it jenkins-server /bin/bash``` --> paste contents --> Enter
+5. Once installed within your Jenkins Server Container, navigate to ***\[Inventory > Kubernetes > K8s Scopes\]***
+6. Select ```Add Scope``` in the top right
+    * Input Name of scope (i.e. ***cbctl_demo***)
+    * Select ```Build Phase```
+    * Select ```Specific namespaces and/or build steps``` Radio Button
+      * Check box next to ```Resources in specific build steps```
+        *  Input in ```Build Step``` created in Step 4 (i.e. ***dev***)
+    * Save
+7. Navigate to ***\[Enforce > K8s Policies\]***
+8. Select ```Add Policy``` in the top right 
+    * Input in Name of policy (i.e. ***cbctl_demo_policy***)
+    * Select the ```Scope``` you created in step 6 & hit ```Next```
+    * Under ```Container Images``` section:
+      *  Select _'Alert/Block'_ for ```Vulnerabilities with Fixes```
+      *  Select _'Alert/Block'_ for ```Critical Vulnerabilities```
+    * Under ```Quota``` section:
+      * Select _'Alert/Block'_ for ```Memory Limits```
+      * Select _'Alert/Block'_ for ```CPU Limits```
+    * Click ```Next``` through the until the end, and select ```Enable Policy```
+9. You should be all set! You can now move onto the build sections to run the demo!   
    
 ## Run/Build Options
 
