@@ -7,7 +7,7 @@ In order to get started, start by setting up your environment by following the [
 ## Branches
 
 ### _CBC_Container_Demo_
-_***Cbcbtl Scan/validate***_ - _***Deploy to microk8s***_
+ _Cbcbtl validate_ --> _Post validate results to Slack_ --> _Deploy to microk8s_
 
 _Please see the [README.md](https://github.com/JaBarosin/K8sConfigs/blob/CBC_Container_Demo/README.md) on the [CBC_Container_Demo Branch](https://github.com/JaBarosin/K8sConfigs/tree/CBC_Container_Demo) for the verbose setup and usage instructions_
 
