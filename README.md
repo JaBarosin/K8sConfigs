@@ -19,6 +19,7 @@ Validate and deploy two different k8s configurations to a microk8s cluster, in a
    * _[Good Deployment](https://github.com/JaBarosin/K8sConfigs/tree/CBC_Container_Demo#good-deployment)_
      * _[Successful Jenkins Pipeline](https://github.com/JaBarosin/K8sConfigs/tree/CBC_Container_Demo#jenkins-1)_
      * _[Successful Slack Post](https://github.com/JaBarosin/K8sConfigs/tree/CBC_Container_Demo#slack-1)_ 
+     * _[Successful Static Site Created](https://github.com/JaBarosin/K8sConfigs/tree/CBC_Container_Demo#good-deployment-static-site)_
 
 ## Jenkins Setup
 
