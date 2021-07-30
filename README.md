@@ -159,3 +159,8 @@ Script Path: | ```good/Jenkinsfile```
 #### _Slack_
 ![image](https://user-images.githubusercontent.com/18126247/127373075-eda903c4-7c33-4e79-b0be-83cda11a525b.png)
 
+#### _Good-Deployment Static Site_
+
+![image](https://user-images.githubusercontent.com/18126247/127696195-0b1e94b2-af67-4b78-8774-af44591c088f.png)
+
+
