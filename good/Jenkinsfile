@@ -89,7 +89,7 @@ node (k8) {
   stage ('Clean Up'){
     container('kubectl') {
       echo "Navigate to localhost:30333 on your demo vm to see your static site!"
-      sleep 600
+      sleep 300
       sh "kubectl get all -n nodeapp"
       sh "kubectl delete service --all -n nodeapp"
       sh "kubectl delete deployment --all -n nodeapp"
